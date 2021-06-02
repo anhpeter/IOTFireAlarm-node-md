@@ -40,4 +40,4 @@ app.use('/room-status', require('./routes/room_status'));
 
 app.listen(PORT, () => {
     console.log(`Server listen to port: ${PORT}`);
-})
+});
