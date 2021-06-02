@@ -7,8 +7,9 @@ const mainModel = require('../app/models/room_status');
 
 // get
 router.get('/', (req, res) => {
-    res.status(200);
-    res.json({message:'ok'});
+    mainModel.getAll().then(result => {
+        Response.success(res, result);
+    })
 })
 
 router.get('/get-last', (req, res) => {
@@ -20,13 +21,23 @@ router.get('/get-last', (req, res) => {
 
 // insert
 router.post('/', (req, res) => {
-    console.log('body', req.body);
-    res.status(200);
-    res.json({
-        message: "ok"
-    });
+    const item = {
+       ...req.body,
+      date: new Date().toISOString(),
+      
+    };
+    mainModel.insertOne(item).then(result=>{
+      res.json(result);
+    })
+    
 })
 
+// delete 
+router.get('/delete-all', (req, res) => {
+    mainModel.deleteAll().then(result => {
+        Response.success(res, result);
+    })
+})
 
 // fake
 router.get('/fake', (req, res) => {

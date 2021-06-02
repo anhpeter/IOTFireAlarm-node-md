@@ -26,10 +26,16 @@ const commonModel = {
         await this.model.deleteMany({});
         return this.model.insertMany(this.fakeData);
     },
+  
 
     // insert one
     insertOne: function(item){
-        return this.model.insertOne(item);
+        return new this.model(item).save();
+    },
+  
+    // delete
+    deleteAll: function(){
+        return this.model.deleteMany({});
     }
 
 
