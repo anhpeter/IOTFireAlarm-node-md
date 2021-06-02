@@ -27,7 +27,7 @@ db.once('open', function() {
 });
 
 app.get('/', (req, res) => {
-    res.json({ message: 'fire alarm api' });
+    res.json({ message: 'This is Fire Alarm Api' });
 })
 
 app.get('/get-last', (req, res) => {
