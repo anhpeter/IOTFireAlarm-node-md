@@ -1,8 +1,8 @@
 const express = require('express');
 
 var bodyParser = require('body-parser')
+const mongoose = require('mongoose');
 
-const Response = require('./app/common/response');
 const app = express();
 
 // parse application/x-www-form-urlencoded
@@ -11,13 +11,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-const mongoose = require('mongoose');
 
 const PORT = 3000;
-const roomModel = require('./app/models/rooms');
 
 // mongoose
-mongoose.connect('mongodb+srv://webfullstack99:LoveGuitar99@cluster0.mrjwz.gcp.mongodb.net/FireAlarm?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb+srv://admin:Admin123@cluster0.mrjwz.gcp.mongodb.net/FireAlarm?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
 
 // check connection
 const db = mongoose.connection;
