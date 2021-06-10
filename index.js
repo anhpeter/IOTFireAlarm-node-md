@@ -48,12 +48,13 @@ server.listen(PORT, () => {
     console.log(`Server listen to port: ${PORT}`);
 });
 
-io.on('connection', (socket)=>{
-	console.log(`socket id: ${socket.id}`);
+io.on('connection', (socket) => {
+    console.log(`socket id: ${socket.id}`);
 })
 
 
-
-axios.get('https://alert-deserted-prose.glitch.me/').then(res=>{
-    console.log(res.data);
-})
+setInterval(() => {
+    axios.get('https://alert-deserted-prose.glitch.me/').then(res => {
+        console.log(res.data);
+    })
+}, 3*60*1000);
