@@ -25,8 +25,6 @@ const roomStatusModel = {
     model: model,
 
     getLastItemByRoomId: function (id) {
-        console.log(id);
-        
         return this.model.aggregate([
             {
                 $match: {

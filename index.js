@@ -8,6 +8,7 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+const axios = require('axios');
 
 app.set('socketio', io);
 
@@ -49,4 +50,8 @@ server.listen(PORT, () => {
 
 io.on('connection', (socket)=>{
 	console.log(`socket id: ${socket.id}`);
+})
+
+axios.get('https://alert-deserted-prose.glitch.me/').then(result=>{
+    console.log(result);
 })

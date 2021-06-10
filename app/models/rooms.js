@@ -41,7 +41,10 @@ const roomModel = {
         rooms.forEach(room=>{
             promises.push(
                 new Promise(resolve=>{
-                    resolve(roomStatusModel.getLastItemByRoomId(room._id));
+                    resolve({
+                        ...room,
+                        status: roomStatusModel.getLastItemByRoomId(room._id),
+                    });
                 })
             )
         })
