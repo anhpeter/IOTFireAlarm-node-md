@@ -52,6 +52,8 @@ io.on('connection', (socket)=>{
 	console.log(`socket id: ${socket.id}`);
 })
 
-axios.get('https://alert-deserted-prose.glitch.me/').then(result=>{
-    console.log(result);
+
+
+axios.get('https://alert-deserted-prose.glitch.me/').then(res=>{
+    console.log(res.data);
 })

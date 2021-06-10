@@ -38,14 +38,18 @@ const roomModel = {
     getAllAndStatus: async function () {
         const rooms = await this.model.find();
         const promises = [];
-        rooms.forEach(room=>{
-            const [status] = roomStatusModel.getLastItemByRoomId(room._id);
+        rooms.forEach(room => {
+
             promises.push(
-                new Promise(resolve=>{
-                    resolve({
-                        ...room.toObject(),
-                        status,
-                    });
+                new Promise(resolve => {
+                    roomStatusModel.getLastItemByRoomId(room._id).then(lastStatus => {
+                        let [status] = lastStatus;
+                        resolve({
+                            ...room.toObject(),
+                            status: status,
+                        });
+                    })
+
                 })
             )
         })
