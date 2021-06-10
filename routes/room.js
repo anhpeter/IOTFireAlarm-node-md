@@ -12,6 +12,12 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/get-all-and-status', (req, res) => {
+    mainModel.getAllAndStatus().then(result => {
+        res.json(result);
+    })
+})
+
 router.get('/get-last', (req, res) => {
     mainModel.getLast(1).then(result => {
         const [lastItem] = result;

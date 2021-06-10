@@ -24,6 +24,26 @@ const roomStatusModel = {
     fakeData: fake,
     model: model,
 
+    getLastItemByRoomId: function (id) {
+        console.log(id);
+        
+        return this.model.aggregate([
+            {
+                $match: {
+                    roomId: `${id}`
+                }
+            },
+            {
+                $sort: {
+                    _id: -1,
+                },
+            },
+            {
+                $limit: 1
+            }
+        ])
+    }
+
 }
 
 module.exports = roomStatusModel;
