@@ -40,6 +40,7 @@ app.get('/get-last', (req, res) => {
 })
 
 app.use('/room', require('./routes/room'));
+app.use('/room-status', require('./routes/room_status'));
 
 
 server.listen(PORT, () => {

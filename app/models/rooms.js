@@ -24,6 +24,8 @@ const fake = [
 
 ]
 
+const roomStatusModel = require('./room_status');
+
 const roomModel = {
     ...commonModel,
     model: model,
@@ -32,6 +34,20 @@ const roomModel = {
     getItemByName: function (name) {
         return this.model.findOne({ name: name });
     },
+
+    getAllAndStatus: async function () {
+        const rooms = await this.model.find();
+        const promises = [];
+        rooms.forEach(room=>{
+            promises.push(
+                new Promise(resolve=>{
+                    resolve(roomStatusModel.getLastItemByRoomId(room._id));
+                })
+            )
+        })
+
+        return Promise.all(promises);
+    }
 }
 
 module.exports = roomModel;

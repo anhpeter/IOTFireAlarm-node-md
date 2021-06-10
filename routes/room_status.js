@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const Response = require('../app/common/response')
+const Response = require('../app/common/response');
+const roomModel = require('../app/models/rooms');
 
 const mainModel = require('../app/models/room_status');
 
@@ -28,7 +29,9 @@ router.post('/', (req, res) => {
 
 	};
 	mainModel.insertOne(item).then(result => {
-		io.emit('SERVER_EMIT_DATA', result);
+		roomModel.getAllAndStatus().then(result => {
+			io.emit('SERVER_EMIT_DATA', result);
+		})
 		res.json(result);
 	})
 
