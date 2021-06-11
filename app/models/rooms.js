@@ -39,7 +39,6 @@ const roomModel = {
         const rooms = await this.model.find();
         const promises = [];
         rooms.forEach(room => {
-
             promises.push(
                 new Promise(resolve => {
                     roomStatusModel.getLastItemByRoomId(room._id).then(lastStatus => {
@@ -55,7 +54,17 @@ const roomModel = {
         })
 
         return Promise.all(promises);
+    },
+
+    getItemAndStatusById: async function (roomId) {
+        const item = await this.model.find({ _id: `${roomId}` });
+        const status = await roomStatusModel.getLastItemByRoomId(roomId);
+        return {
+            ...item.toObject(),
+            status: status.toObject()
+        }
     }
+
 }
 
 module.exports = roomModel;

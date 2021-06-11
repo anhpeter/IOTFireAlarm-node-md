@@ -1,7 +1,7 @@
 const commonModel = {
     // get
     getItemById: function (id) {
-        return this.model.findOne({ _id: id });
+        return this.model.findOne({ _id: `${id}`});
     },
 
     getLast: function (qty) {
