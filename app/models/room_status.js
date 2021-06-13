@@ -42,12 +42,30 @@ const roomStatusModel = {
         ])
     },
 
-    listItemAfterDateByRoomId: function(roomId, startDate){
+    listItemAfterDateByRoomId: function (roomId, startDate) {
         return this.model.find({
             roomId: `${roomId}`,
             date: {
                 $gt: startDate.toISOString()
             }
+        })
+    },
+
+    listWarningAfterDateByRoomId: function (roomId, startDate) {
+        return this.model.find({
+            roomId: `${roomId}`,
+            date: {
+                $gt: startDate.toISOString()
+            },
+            $or: [
+                {
+                    gas: 0,
+                },
+                {
+                    flame: 0,
+                },
+            ]
+
         })
     }
 
