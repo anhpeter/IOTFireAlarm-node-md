@@ -40,6 +40,15 @@ const roomStatusModel = {
                 $limit: 1
             }
         ])
+    },
+
+    listItemAfterDateByRoomId: function(roomId, startDate){
+        return this.model.find({
+            roomId: `${roomId}`,
+            date: {
+                $gt: startDate.toISOString()
+            }
+        })
     }
 
 }

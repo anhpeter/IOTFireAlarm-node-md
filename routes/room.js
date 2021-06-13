@@ -25,6 +25,14 @@ router.get('/get-last', (req, res) => {
     })
 })
 
+router.get('/rooms-for-chart', (req, res) => {
+    const { start } = req.query;
+    const startDate = new Date(start);
+    mainModel.listRoomForChart(startDate).then(result => {
+        Response.success(res, result);
+    })
+})
+
 router.get('/fake', (req, res) => {
     mainModel.insertFakeDocs().then(result => {
         Response.success(res, {

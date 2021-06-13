@@ -63,6 +63,25 @@ const roomModel = {
             ...item.toObject(),
             status: status.toObject()
         }
+    },
+
+    listRoomForChart: async function (startDate) {
+        const rooms = await this.model.find();
+        const promises = [];
+        rooms.forEach(room => {
+            promises.push(
+                new Promise(resolve => {
+                    roomStatusModel.listItemAfterDateByRoomId(room._id, startDate).then(statuses => {
+                        const roomData = {
+                            ...room.toObject(),
+                            statuses
+                        }
+                        resolve(roomData);
+                    })
+                })
+            )
+        })
+        return Promise.all(promises);
     }
 
 }
