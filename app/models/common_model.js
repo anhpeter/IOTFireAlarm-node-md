@@ -1,7 +1,9 @@
+const mongoose = require('mongoose');
+const Helper = require('../common/Helper');
 const commonModel = {
     // get
-    getItemById: function (id) {
-        return this.model.findOne({ _id: `${id}`});
+    getItemById: function (_id) {
+        return this.model.findOne({ _id: `${Helper.toObjectId(_id)}`});
     },
 
     getLast: function (qty) {

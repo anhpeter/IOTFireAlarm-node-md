@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 app.use(cors());
 
 
-const PORT = 3000;
+const PORT = 5000;
 
 // mongoose
 mongoose.connect('mongodb+srv://admin:Admin123@cluster0.mrjwz.gcp.mongodb.net/FireAlarm?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -53,8 +53,8 @@ io.on('connection', (socket) => {
 })
 
 
-setInterval(() => {
-    axios.get('https://alert-deserted-prose.glitch.me/').then(res => {
-        console.log(res.data);
-    })
-}, 3*60*1000);
+// setInterval(() => {
+//     axios.get('https://alert-deserted-prose.glitch.me/').then(res => {
+//         console.log(res.data);
+//     })
+// }, 3*60*1000);

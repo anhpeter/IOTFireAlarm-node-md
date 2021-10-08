@@ -13,6 +13,13 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/get-by-id/:_id', (req, res) => {
+    const {_id} = req.params;
+    mainModel.getItemById(_id).then(result => {
+        Response.success(res, result);
+    })
+})
+
 router.get('/get-all-and-status', (req, res) => {
     mainModel.getAllAndStatus().then(result => {
         res.json(result);

@@ -31,6 +31,7 @@ router.post('/', (req, res) => {
 
     };
     mainModel.insertOne(item).then(status => {
+        console.warn('\n NEW', status);
         roomModel.getItemById(item.roomId).then(room => {
             const data = {
                 ...room.toObject(),
