@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
     })
 })
 
-
 router.get('/get-last', (req, res) => {
     mainModel.getLast(1).then(result => {
         const [lastItem] = result;

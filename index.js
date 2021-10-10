@@ -52,9 +52,8 @@ io.on('connection', (socket) => {
     console.log(`socket id: ${socket.id}`);
 })
 
-
-// setInterval(() => {
-//     axios.get('https://alert-deserted-prose.glitch.me/').then(res => {
-//         console.log(res.data);
-//     })
-// }, 3*60*1000);
+setInterval(() => {
+    axios.get('https://fire-alarm-api.glitch.me/').then(res => {
+        console.log(res.data);
+    })
+}, 3 * 60 * 1000);

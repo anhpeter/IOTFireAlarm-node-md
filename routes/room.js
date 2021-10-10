@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/get-by-id/:_id', (req, res) => {
-    const {_id} = req.params;
+    const { _id } = req.params;
     mainModel.getItemById(_id).then(result => {
         Response.success(res, result);
     })
@@ -48,7 +48,7 @@ router.get('/get-room-with-recent-warnings', (req, res) => {
     mainModel.getItemById(id).then(room => {
         roomStatusModel.listWarningAfterDateByRoomId(id, startDate).then(warnings => {
             const data = {
-                ... room.toObject(),
+                ...room.toObject(),
                 recentWarnings: warnings,
             }
             Response.success(res, data);
