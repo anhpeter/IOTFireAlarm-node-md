@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const roomSchema = new mongoose.Schema({
-    name: String,
-    imageUrl: String,
+    name: { type: String, required: true },
+    imageUrl: { type: String },
 });
 
 module.exports = roomSchema;

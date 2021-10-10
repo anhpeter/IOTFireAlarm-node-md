@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
 })
 
 // delete 
-router.get('/delete-all',  async (req, res) => {
+router.get('/delete-all', async (req, res) => {
     try {
         const result = await mainModel.deleteAll();
         Response.success(res, result);

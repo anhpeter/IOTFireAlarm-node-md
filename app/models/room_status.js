@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Helper = require('../common/Helper');
 const roomStatusSchema = require('../schemas/room_status');
 const model = mongoose.model('room_status', roomStatusSchema);
 
@@ -28,7 +29,7 @@ const roomStatusModel = {
         return this.model.aggregate([
             {
                 $match: {
-                    roomId: `${id}`
+                    room: `${Helper.toObjectId(id)}`
                 }
             },
             {
@@ -44,7 +45,7 @@ const roomStatusModel = {
 
     listItemAfterDateByRoomId: function (roomId, startDate) {
         return this.model.find({
-            roomId: `${roomId}`,
+            room: `${Helper.toObjectId(roomId)}`,
             date: {
                 $gt: startDate.toISOString()
             }
@@ -53,7 +54,7 @@ const roomStatusModel = {
 
     listWarningAfterDateByRoomId: function (roomId, startDate) {
         return this.model.find({
-            roomId: `${roomId}`,
+            room: `${Helper.toObjectId(roomId)}`,
             date: {
                 $gt: startDate.toISOString()
             },

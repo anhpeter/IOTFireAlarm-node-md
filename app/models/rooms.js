@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Helper = require('../common/Helper.js');
 const DUMMY_ROOMS = require('../dummy_data/DUMMY_ROOMS.js');
 const roomSchema = require('../schemas/rooms');
 const model = mongoose.model('room', roomSchema);
@@ -30,7 +31,6 @@ const roomModel = {
                             status: status,
                         });
                     })
-
                 })
             )
         })
@@ -39,7 +39,7 @@ const roomModel = {
     },
 
     getItemAndStatusById: async function (roomId) {
-        const item = await this.model.find({ _id: `${roomId}` });
+        const item = await this.model.find({ _id: `${Helper.toObjectId(roomId)}` });
         const status = await roomStatusModel.getLastItemByRoomId(roomId);
         return {
             ...item.toObject(),
