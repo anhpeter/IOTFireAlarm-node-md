@@ -6,63 +6,66 @@ const Response = require('../app/common/response')
 const roomStatusModel = require('../app/models/room_status')
 
 
-// get
-router.get('/', (req, res) => {
-    mainModel.getAll().then(result => {
-        Response.success(res, result);
-    })
+router.get('/', async (req, res) => {
+    try {
+        const items = await mainModel.getAll();
+        Response.success(res, items);
+    } catch (e) { Response.error(res, e); }
 })
 
-router.get('/get-by-id/:_id', (req, res) => {
+router.get('/get-by-id/:_id', async (req, res) => {
     const { _id } = req.params;
-    mainModel.getItemById(_id).then(result => {
-        Response.success(res, result);
-    })
+    try {
+        const item = await mainModel.getItemById(_id);
+        Response.success(res, item);
+    } catch (e) { Response.error(res, e); }
 })
 
-router.get('/get-all-and-status', (req, res) => {
-    mainModel.getAllAndStatus().then(result => {
-        res.json(result);
-    })
+router.get('/get-all-and-status', async (req, res) => {
+    try {
+        const items = await mainModel.getAllAndStatus();
+        Response.success(res, items);
+    } catch (e) { Response.error(res, e); }
 })
 
-router.get('/get-last', (req, res) => {
-    mainModel.getLast(1).then(result => {
-        const [lastItem] = result;
-        Response.success(res, lastItem || {});
-    })
+router.get('/get-last', async (req, res) => {
+    try {
+        const [lastItem] = await mainModel.getLast(1);
+        Response.success(res, lastItem);
+    } catch (e) { Response.error(res, e); }
 })
 
-router.get('/rooms-for-chart', (req, res) => {
+router.get('/rooms-for-chart', async (req, res) => {
     const { start } = req.query;
-    const startDate = new Date(start);
-    mainModel.listRoomForChart(startDate).then(result => {
-        Response.success(res, result);
-    })
+    try {
+        const startDate = new Date(start);
+        const items = await mainModel.listRoomForChart(startDate)
+        Response.success(res, items);
+    } catch (e) { Response.error(res, e); }
 })
 
-router.get('/get-room-with-recent-warnings', (req, res) => {
+router.get('/get-room-with-recent-warnings', async (req, res) => {
     const { id, start } = req.query;
-
-    const startDate = new Date(start);
-    mainModel.getItemById(id).then(room => {
-        roomStatusModel.listWarningAfterDateByRoomId(id, startDate).then(warnings => {
-            const data = {
-                ...room.toObject(),
-                recentWarnings: warnings,
-            }
-            Response.success(res, data);
-        })
-    })
+    try {
+        const startDate = new Date(start);
+        const room = await mainModel.getItemById(id);
+        const warnings = await roomStatusModel.listWarningAfterDateByRoomId(id, startDate);
+        const data = {
+            ...room.toObject(),
+            recentWarnings: warnings,
+        }
+        Response.success(res, data);
+    } catch (e) { Response.error(res, e); }
 })
 
-router.get('/fake', (req, res) => {
-    mainModel.insertFakeDocs().then(result => {
+router.get('/fake', async (req, res) => {
+    try {
+        const result = await mainModel.insertFakeDocs();
         Response.success(res, {
             n: result.length,
             docs: result,
         });
-    })
+    } catch (e) { Response.error(res, e); }
 })
 
 module.exports = router

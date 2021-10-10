@@ -3,61 +3,61 @@ const router = express.Router()
 
 const Response = require('../app/common/response');
 const roomModel = require('../app/models/rooms');
-
 const mainModel = require('../app/models/room_status');
 
-// get
-router.get('/', (req, res) => {
-    mainModel.getAll().then(result => {
+router.get('/', async (req, res) => {
+    try {
+        const result = await mainModel.getAll();
         Response.success(res, result);
-    })
+    } catch (e) { Response.error(res, e); }
 })
 
-router.get('/get-last', (req, res) => {
-    mainModel.getLast(1).then(result => {
-        const [lastItem] = result;
-        Response.success(res, lastItem || {});
-    })
+router.get('/get-last', async (req, res) => {
+    try {
+        const [lastItem] = await mainModel.getLast(1);
+        Response.success(res, lastItem);
+    } catch (e) { Response.error(res, e); }
 })
 
 
 // insert
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const io = req.app.get('socketio');
     const item = {
         ...req.body,
         date: new Date().toISOString(),
 
     };
-    mainModel.insertOne(item).then(status => {
+    try {
+        const status = await mainModel.insertOne(item);
         console.warn('\n NEW', status);
-        roomModel.getItemById(item.roomId).then(room => {
-            const data = {
-                ...room.toObject(),
-                status: status.toObject()
-            };
-            io.emit('SERVER_EMIT_ROOM_WITH_STATUS', data);
-        })
-        res.json(status);
-    })
+        const room = await roomModel.getItemById(item.roomId);
+        const data = {
+            ...room.toObject(),
+            status: status.toObject()
+        };
+        io.emit('SERVER_EMIT_ROOM_WITH_STATUS', data);
+        Response.success(res, status);
+    } catch (e) { Response.error(res, e); }
 
 })
 
 // delete 
-router.get('/delete-all', (req, res) => {
-    mainModel.deleteAll().then(result => {
+router.get('/delete-all',  async (req, res) => {
+    try {
+        const result = await mainModel.deleteAll();
         Response.success(res, result);
-    })
+    } catch (e) { Response.error(res, e); }
 })
 
-// fake
-router.get('/fake', (req, res) => {
-    mainModel.insertFakeDocs().then(result => {
+router.get('/fake', async (req, res) => {
+    try {
+        const result = await mainModel.insertFakeDocs();
         Response.success(res, {
             n: result.length,
             docs: result,
         });
-    })
+    } catch (e) { Response.error(res, e); }
 })
 
 module.exports = router
