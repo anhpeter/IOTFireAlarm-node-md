@@ -3,7 +3,7 @@ const Helper = require('../common/Helper');
 const commonModel = {
     // get
     getItemById: function (_id) {
-        return this.model.findOne({ _id: `${Helper.toObjectId(_id)}`});
+        return this.model.findOne({ _id: `${Helper.toObjectId(_id)}` });
     },
 
     getLast: function (qty) {
@@ -19,7 +19,7 @@ const commonModel = {
         ])
     },
 
-    getAll: function(){
+    getAll: function () {
         return this.model.find({});
     },
 
@@ -28,15 +28,15 @@ const commonModel = {
         await this.model.deleteMany({});
         return this.model.insertMany(this.fakeData);
     },
-  
+
 
     // insert one
-    insertOne: function(item){
+    insertOne: function (item) {
         return new this.model(item).save();
     },
-  
+
     // delete
-    deleteAll: function(){
+    deleteAll: function () {
         return this.model.deleteMany({});
     }
 

@@ -7,6 +7,8 @@ const mainModel = require('../app/models/room_status');
 
 router.get('/', async (req, res) => {
     try {
+        const io = req.app.get('socketio');
+        io.emit('test-data', { username: 'peter' })
         const result = await mainModel.getAll();
         Response.success(res, result);
     } catch (e) { Response.error(res, e); }
@@ -29,14 +31,9 @@ router.post('/', async (req, res) => {
 
     };
     try {
-        const status = await mainModel.insertOne(item);
-        console.warn('\n NEW', status);
-        const room = await roomModel.getItemById(item.roomId);
-        const data = {
-            ...room.toObject(),
-            status: status.toObject()
-        };
-        io.emit('SERVER_EMIT_ROOM_WITH_STATUS', data);
+        console.log('\n NEW', status);
+        const status = await mainModel.insertOne(item).populate('room');
+        io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${status.room._id}`, data);
         Response.success(res, status);
     } catch (e) { Response.error(res, e); }
 

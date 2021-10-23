@@ -14,6 +14,10 @@ const roomModel = {
     model: model,
     fakeData: DUMMY_ROOMS,
 
+    getAll: function(){
+        return this.model.find({}).sort({name: 1});
+    },
+
     getItemByName: function (name) {
         return this.model.findOne({ name: name });
     },
