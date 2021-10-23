@@ -31,9 +31,10 @@ router.post('/', async (req, res) => {
 
     };
     try {
+        const result = await mainModel.insertOne(item);
+        const status = await mainModel.getItemById(result._id).populate('room');
         console.log('\n NEW', status);
-        const status = await mainModel.insertOne(item).populate('room');
-        io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${status.room._id}`, data);
+        io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${status.room._id}`, status);
         Response.success(res, status);
     } catch (e) { Response.error(res, e); }
 

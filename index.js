@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors());
 
-const PORT = 4000;
+const PORT = 5000;
 
 mongoose.connect(`mongodb+srv://${Settings.database.username}:${Settings.database.password}@cluster0.mrjwz.gcp.mongodb.net/${Settings.database.databaseName}?retryWrites=true&w=majority`,);
 
@@ -39,8 +39,7 @@ server.listen(PORT, () => {
 });
 
 // IO
-io.on('connection', (socket) => {
-    console.log('socket connected:', socket.id);
+io.sockets.on('connection', (socket) => {
     // setInterval(() => {
     //     const data = dummyData();
     //     socket.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
