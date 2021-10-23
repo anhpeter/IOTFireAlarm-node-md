@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 
 const Response = require('../app/common/response');
-const roomModel = require('../app/models/rooms');
 const mainModel = require('../app/models/room_status');
 
 router.get('/', async (req, res) => {
@@ -14,10 +13,13 @@ router.get('/', async (req, res) => {
     } catch (e) { Response.error(res, e); }
 })
 
-router.get('/get-last', async (req, res) => {
+router.get('/get-last-items-by-room-id/:_id', async (req, res) => {
+    let { _id } = req.params;
+    let { qty } = req.query;
     try {
-        const [lastItem] = await mainModel.getLast(1);
-        Response.success(res, lastItem);
+        qty = Number.parseInt(qty);
+        const items = await mainModel.getLastItemsByRoomId(_id, qty);
+        Response.success(res, items);
     } catch (e) { Response.error(res, e); }
 })
 
@@ -33,7 +35,7 @@ router.post('/', async (req, res) => {
     try {
         const result = await mainModel.insertOne(item);
         const status = await mainModel.getItemById(result._id).populate('room');
-        console.log('\n NEW', status);
+        // console.log('\n NEW', status);
         io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${status.room._id}`, status);
         Response.success(res, status);
     } catch (e) { Response.error(res, e); }

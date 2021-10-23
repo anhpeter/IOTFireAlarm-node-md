@@ -25,23 +25,10 @@ const roomStatusModel = {
     fakeData: fake,
     model: model,
 
-    getLastItemByRoomId: function (id) {
-        return this.model.aggregate([
-            {
-                $match: {
-                    room: `${Helper.toObjectId(id)}`
-                }
-            },
-            {
-                $sort: {
-                    _id: -1,
-                },
-            },
-            {
-                $limit: 1
-            }
-        ])
+    getLastItemsByRoomId: function (id, qty) {
+        return this.model.find({room:id}).limit(qty);
     },
+
 
     listItemAfterDateByRoomId: function (roomId, startDate) {
         return this.model.find({
