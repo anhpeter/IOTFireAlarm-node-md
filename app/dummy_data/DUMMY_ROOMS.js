@@ -5,7 +5,7 @@ module.exports = [
     },
     {
         name: 'Room 2',
-        imageUrl: 'https://lh3.googleusercontent.com/proxy/H4H6EnhiApP64mUsOMDRN-PLPGpBvqoY4BpBZFo8PLMvcP2WkAPSrfjCzmjHP1OLxoPFQ8_Y0xMLFpTmDg',
+        imageUrl: 'https://cdn.luxstay.com/rooms/25495/large/room_25495_56_1558713243.jpg',
     },
     {
         name: 'Room 3',
