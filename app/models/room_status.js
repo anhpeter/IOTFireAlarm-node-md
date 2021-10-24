@@ -26,7 +26,7 @@ const roomStatusModel = {
     model: model,
 
     getLastItemsByRoomId: function (id, qty) {
-        return this.model.find({room:id}).limit(qty);
+        return this.model.find({room:id}).limit(qty).sort({_id: -1});
     },
 
 
