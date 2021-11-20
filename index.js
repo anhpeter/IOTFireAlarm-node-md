@@ -12,6 +12,9 @@ const axios = require('axios');
 const Settings = require('./app/common/Settings');
 const Helper = require('./app/common/Helper');
 
+process.on('unhandledRejection', error => {
+  // handle error ... or don't
+});
 
 // parse application/x-www-form-urlencoded
 app.set('socketio', io);
@@ -70,5 +73,5 @@ setInterval(() => {
     axios.get('https://fire-alarm-api.glitch.me/')
         .then(res => {
             console.log('MAKE APP ALIVE;');
-        }).catch((e)=>e)
+        }).catch((e) => e)
 }, 3 * 60 * 1000);
