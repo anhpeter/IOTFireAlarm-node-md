@@ -70,5 +70,5 @@ setInterval(() => {
     axios.get('https://fire-alarm-api.glitch.me/')
         .then(res => {
             console.log('MAKE APP ALIVE;');
-        })
+        }).catch((e)=>e)
 }, 3 * 60 * 1000);

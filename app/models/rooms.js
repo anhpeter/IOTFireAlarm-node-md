@@ -35,7 +35,7 @@ const roomModel = {
                                 ...room.toObject(),
                                 status: status,
                             });
-                        })
+                        }).catch(e=>e)
                     })
                 )
             })
@@ -71,7 +71,7 @@ const roomModel = {
                                 statuses
                             }
                             resolve(roomData);
-                        })
+                        }).catch(e=>e)
                     })
                 )
             })
