@@ -22,13 +22,12 @@ app.use(cors());
 
 const PORT = 5000;
 
-mongoose.connect(`mongodb+srv://${Settings.database.username}:${Settings.database.password}@cluster0.mrjwz.gcp.mongodb.net/${Settings.database.databaseName}?retryWrites=true&w=majority`,).then(() => {
-    // check connection
-    const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function () {
-        console.log('db connected');
-    });
+mongoose.connect(`mongodb+srv://${Settings.database.username}:${Settings.database.password}@cluster0.mrjwz.gcp.mongodb.net/${Settings.database.databaseName}?retryWrites=true&w=majority`,);
+// check connection
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log('db connected');
 
     // ROUTES
     app.use('/', require('./routes/navigation'));
@@ -38,12 +37,12 @@ mongoose.connect(`mongodb+srv://${Settings.database.username}:${Settings.databas
 
     // IO
     io.on('connection', (socket) => {
-    }).
+    });
 
-    setInterval(() => {
-        const data = dummyData();
-        io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
-    }, 2000);
+    // setInterval(() => {
+    //     const data = dummyData();
+    //     io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
+    // }, 2000);
 
     const dummyData = () => {
         const data = {
@@ -62,12 +61,13 @@ mongoose.connect(`mongodb+srv://${Settings.database.username}:${Settings.databas
         return data;
     }
 
+});
 
-    //make alive
-    setInterval(() => {
-        axios.get('https://fire-alarm-api.glitch.me/')
-            .then(res => {
-                console.log('MAKE APP ALIVE;');
-            }).catch((e) => {})
-    }, 3 * 60 * 1000);
-}).catch(e=>{});
+
+//make alive
+setInterval(() => {
+    axios.get('https://fire-alarm-api.glitch.me/')
+        .then(res => {
+            console.log('MAKE APP ALIVE;');
+        }).catch((e) => { })
+}, 3 * 60 * 1000);
