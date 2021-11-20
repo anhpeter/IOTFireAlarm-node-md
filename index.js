@@ -39,12 +39,13 @@ server.listen(PORT, () => {
 });
 
 // IO
-io.sockets.on('connection', (socket) => {
+io.on('connection', (socket) => {
 })
-// setInterval(() => {
-//     const data = dummyData();
-//     io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
-// }, 2000);
+
+setInterval(() => {
+    const data = dummyData();
+    io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
+}, 2000);
 
 const dummyData = () => {
     const data = {

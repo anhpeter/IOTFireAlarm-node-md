@@ -14,8 +14,8 @@ const roomModel = {
     model: model,
     fakeData: DUMMY_ROOMS,
 
-    getAll: function(){
-        return this.model.find({}).sort({name: 1});
+    getAll: function () {
+        return this.model.find({}).sort({ name: 1 });
     },
 
     getItemByName: function (name) {
@@ -23,51 +23,62 @@ const roomModel = {
     },
 
     getAllAndStatus: async function () {
-        const rooms = await this.model.find();
-        const promises = [];
-        rooms.forEach(room => {
-            promises.push(
-                new Promise(resolve => {
-                    roomStatusModel.getLastItemsByRoomId(room._id, 1).then(lastStatus => {
-                        let [status] = lastStatus;
-                        resolve({
-                            ...room.toObject(),
-                            status: status,
-                        });
+        try {
+            const rooms = await this.model.find();
+            const promises = [];
+            rooms.forEach(room => {
+                promises.push(
+                    new Promise(resolve => {
+                        roomStatusModel.getLastItemsByRoomId(room._id, 1).then(lastStatus => {
+                            let [status] = lastStatus;
+                            resolve({
+                                ...room.toObject(),
+                                status: status,
+                            });
+                        })
                     })
-                })
-            )
-        })
-
-        return Promise.all(promises);
+                )
+            })
+            return Promise.all(promises);
+        } catch (e) {
+            throw e;
+        }
     },
 
     getItemAndStatusById: async function (roomId) {
-        const item = await this.model.find({ _id: `${Helper.toObjectId(roomId)}` });
-        const status = await roomStatusModel.getLastItemByRoomId(roomId);
-        return {
-            ...item.toObject(),
-            status: status.toObject()
+        try {
+            const item = await this.model.find({ _id: `${Helper.toObjectId(roomId)}` });
+            const status = await roomStatusModel.getLastItemByRoomId(roomId);
+            return {
+                ...item.toObject(),
+                status: status.toObject()
+            }
+        } catch (e) {
+            throw e;
         }
     },
 
     listRoomForChart: async function (startDate) {
-        const rooms = await this.model.find();
-        const promises = [];
-        rooms.forEach(room => {
-            promises.push(
-                new Promise(resolve => {
-                    roomStatusModel.listItemAfterDateByRoomId(room._id, startDate).then(statuses => {
-                        const roomData = {
-                            ...room.toObject(),
-                            statuses
-                        }
-                        resolve(roomData);
+        try {
+            const rooms = await this.model.find();
+            const promises = [];
+            rooms.forEach(room => {
+                promises.push(
+                    new Promise(resolve => {
+                        roomStatusModel.listItemAfterDateByRoomId(room._id, startDate).then(statuses => {
+                            const roomData = {
+                                ...room.toObject(),
+                                statuses
+                            }
+                            resolve(roomData);
+                        })
                     })
-                })
-            )
-        })
-        return Promise.all(promises);
+                )
+            })
+            return Promise.all(promises);
+        } catch (e) {
+            throw e;
+        }
     },
 }
 
