@@ -31,7 +31,7 @@ db.once('open', function () {
 
     // ROUTES
     app.use('/', require('./routes/navigation'));
-    server.listen(PORT, () => {
+    server.listen(process.env.PORT || PORT, () => {
         console.log(`Server listen to port: ${PORT}`);
     });
 
