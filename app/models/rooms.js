@@ -41,7 +41,6 @@ const roomModel = {
             })
             return Promise.all(promises);
         } catch (e) {
-            throw e;
         }
     },
 
@@ -54,7 +53,6 @@ const roomModel = {
                 status: status.toObject()
             }
         } catch (e) {
-            throw e;
         }
     },
 
@@ -77,7 +75,6 @@ const roomModel = {
             })
             return Promise.all(promises);
         } catch (e) {
-            throw e;
         }
     },
 }

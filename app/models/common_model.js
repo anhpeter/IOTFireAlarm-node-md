@@ -29,7 +29,6 @@ const commonModel = {
             await this.model.deleteMany({});
             return this.model.insertMany(this.fakeData); c
         } catch (e) {
-            throw e;
         }
     },
 

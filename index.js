@@ -38,7 +38,7 @@ mongoose.connect(`mongodb+srv://${Settings.database.username}:${Settings.databas
 
     // IO
     io.on('connection', (socket) => {
-    })
+    }).
 
     setInterval(() => {
         const data = dummyData();
