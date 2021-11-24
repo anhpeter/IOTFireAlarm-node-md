@@ -27,7 +27,7 @@ const commonModel = {
     insertFakeDocs: async function () {
         try {
             await this.model.deleteMany({});
-            return this.model.insertMany(this.fakeData); c
+            return this.model.insertMany(this.fakeData); 
         } catch (e) {
         }
     },

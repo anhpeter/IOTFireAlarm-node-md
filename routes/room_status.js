@@ -32,7 +32,6 @@ router.get('/get-last-items-after-time/:_id', async (req, res) => {
     } catch (e) { Response.error(res, e); }
 })
 
-
 // insert
 router.post('/', async (req, res) => {
     const io = req.app.get('socketio');
@@ -62,10 +61,11 @@ router.get('/delete-all', async (req, res) => {
 router.get('/fake', async (req, res) => {
     try {
         const result = await mainModel.insertFakeDocs();
-        Response.success(res, {
-            n: result.length,
-            docs: result,
-        });
+        return Response.success(res, result)
+        // Response.success(res, {
+        //     n: result.length,
+        //     docs: result,
+        // });
     } catch (e) { Response.error(res, e); }
 })
 

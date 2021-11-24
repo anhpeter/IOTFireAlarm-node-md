@@ -47,15 +47,15 @@ db.once('open', function () {
     const dummyData = () => {
         const data = {
             "_id": "6163a2d6443a0500b4fe82b1",
-            "gas": Helper.genRandNumber(1) % 2 == 0 ? 0 : 1,
-            "flame": Helper.genRandNumber(1) % 2 == 0 ? 0 : 1,
+            "gas": Math.random() > 0.7 ? 0 : 1,
+            "flame": Math.random() > 0.8 ? 0: 1,
             "room": {
                 "_id": "6162ef282821861b2881a580",
                 "name": "Room 2",
                 "imageUrl": "https://cdn.luxstay.com/rooms/25495/large/room_25495_56_1558713243.jpg",
                 "__v": 0
             },
-            "date":new Date().toISOString(),
+            "date": new Date().toISOString(),
             "__v": 0
         };
         return data;
