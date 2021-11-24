@@ -19,14 +19,34 @@ const fake = [
 
 ]
 
-
 const roomStatusModel = {
     ...commonModel,
     fakeData: fake,
     model: model,
 
     getLastItemsByRoomId: function (id, qty) {
-        return this.model.find({room:id}).limit(qty).sort({_id: -1});
+        return this.model.find({ room: id }).limit(qty).sort({ _id: -1 });
+    },
+
+    getLastItemsAfterTimeByRoomId: function (id, time) {
+        console.log('id', id)
+        console.log('time', time)
+        return this.model.find(
+            {
+                room: id,
+                $or: [
+                    {
+                        gas: 0,
+                    },
+                    {
+                        flame: 0,
+                    },
+                ],
+                date: {
+                    $gte: time,
+                }
+            }
+        ).sort({ _id: -1 });
     },
 
 

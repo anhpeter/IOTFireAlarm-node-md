@@ -23,6 +23,15 @@ router.get('/get-last-items-by-room-id/:_id', async (req, res) => {
     } catch (e) { Response.error(res, e); }
 })
 
+router.get('/get-last-items-after-time/:_id', async (req, res) => {
+    let { _id } = req.params;
+    let { time } = req.query;
+    try {
+        const items = await mainModel.getLastItemsAfterTimeByRoomId(_id, time);
+        Response.success(res, items);
+    } catch (e) { Response.error(res, e); }
+})
+
 
 // insert
 router.post('/', async (req, res) => {

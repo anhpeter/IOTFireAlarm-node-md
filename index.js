@@ -39,10 +39,10 @@ db.once('open', function () {
     io.on('connection', (socket) => {
     });
 
-    // setInterval(() => {
-    //     const data = dummyData();
-    //     io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
-    // }, 2000);
+    setInterval(() => {
+        const data = dummyData();
+        io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
+    }, 2000);
 
     const dummyData = () => {
         const data = {
@@ -55,7 +55,7 @@ db.once('open', function () {
                 "imageUrl": "https://cdn.luxstay.com/rooms/25495/large/room_25495_56_1558713243.jpg",
                 "__v": 0
             },
-            "date": "2021-10-11T02:35:02.810Z",
+            "date":new Date().toISOString(),
             "__v": 0
         };
         return data;

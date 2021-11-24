@@ -10,6 +10,7 @@ const Response = {
     },
 
     error: function (res, payload) {
+        console.log(payload)
         res.status(500);
         res.header('Content-Type', 'application/json');
         const data = JSON.stringify({
