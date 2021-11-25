@@ -62,10 +62,6 @@ router.get('/fake', async (req, res) => {
     try {
         const result = await mainModel.insertFakeDocs();
         return Response.success(res, result)
-        // Response.success(res, {
-        //     n: result.length,
-        //     docs: result,
-        // });
     } catch (e) { Response.error(res, e); }
 })
 

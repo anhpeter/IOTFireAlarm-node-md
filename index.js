@@ -11,6 +11,7 @@ const io = require('socket.io')(server);
 const axios = require('axios');
 const Settings = require('./app/common/Settings');
 const Helper = require('./app/common/Helper');
+const roomStatusModel = require('./app/models/room_status');
 
 // parse application/x-www-form-urlencoded
 app.set('socketio', io);
@@ -39,16 +40,22 @@ db.once('open', function () {
     io.on('connection', (socket) => {
     });
 
+    roomStatusModel.clearUselessData();
+    setInterval(async () => {
+        roomStatusModel.clearUselessData();
+    }, 60 * 1000)
+
     setInterval(() => {
         const data = dummyData();
-        io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${data.room._id}`, data)
+        io.emit(`SERVER_EMIT_DUMMY_STATUS_${data.room._id}`, data)
     }, 2000);
+
 
     const dummyData = () => {
         const data = {
             "_id": "6163a2d6443a0500b4fe82b1",
             "gas": Math.random() > 0.7 ? 0 : 1,
-            "flame": Math.random() > 0.8 ? 0: 1,
+            "flame": Math.random() > 0.8 ? 0 : 1,
             "room": {
                 "_id": "6162ef282821861b2881a580",
                 "name": "Room 2",

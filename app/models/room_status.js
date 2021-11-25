@@ -29,8 +29,7 @@ const roomStatusModel = {
     },
 
     getLastItemsAfterTimeByRoomId: function (id, time) {
-        console.log('id', id)
-        console.log('time', time)
+        const t = Date.now();
         return this.model.find(
             {
                 room: id,
@@ -43,37 +42,21 @@ const roomStatusModel = {
                     },
                 ],
                 date: {
-                    $gte: time,
+                    $gt: time,
                 }
             }
-        ).sort({ _id: -1 });
+        ).sort({ _id: -1 }).then(result => {
+            console.log('duration', Date.now() - t)
+            return result;
+        });
     },
-
 
     listItemAfterDateByRoomId: function (roomId, startDate) {
         return this.model.find({
             room: `${Helper.toObjectId(roomId)}`,
             date: {
-                $gt: startDate.toISOString()
+                $gte: startDate.toISOString()
             }
-        })
-    },
-
-    listWarningAfterDateByRoomId: function (roomId, startDate) {
-        return this.model.find({
-            room: `${Helper.toObjectId(roomId)}`,
-            date: {
-                $gt: startDate.toISOString()
-            },
-            $or: [
-                {
-                    gas: 0,
-                },
-                {
-                    flame: 0,
-                },
-            ]
-
         })
     },
 
@@ -119,14 +102,15 @@ const roomStatusModel = {
     // insert
     insertFakeDocs: async function () {
         try {
-            const gasWarnings1 = this.genWarnings(new Date(2021, 10, 6, 9, 15), 30, 'gas');
-            const flameWarnings1 = this.genWarnings(new Date(2021, 10, 6, 9, 40), 530, 'flame');
+            const gasWarnings1 = this.genWarnings(new Date(2021, 10, 19, 15, 15), 40, 'gas');
+            const flameWarnings1 = this.genWarnings(new Date(2021, 10, 19, 15, 50), 530, 'flame');
 
-            const gasWarnings2 = this.genWarnings(new Date(2021, 10, 15, 3, 50), 20, 'gas');
-            const flameWarnings2 = this.genWarnings(new Date(2021, 10, 15, 4, 9), 300, 'flame');
+            const gasWarnings2 = this.genWarnings(new Date(2021, 10, 21, 22), 130, 'gas');
+            const flameWarnings2 = this.genWarnings(new Date(2021, 10, 22, 0, 10), 240, 'flame');
 
-            const gasWarnings3 = this.genWarnings(new Date(2021, 10, 21, 22), 130, 'gas');
-            const flameWarnings3 = this.genWarnings(new Date(2021, 10, 22, 0, 10), 240, 'flame');
+            const gasWarnings3 = this.genWarnings(new Date(2021, 10, 25, 3, 50), 20, 'gas');
+            const flameWarnings3 = this.genWarnings(new Date(2021, 10, 25, 4, 9), 300, 'flame');
+
 
             const bothWarnings = this.genWarnings(new Date(2021, 10, 23, 2), 100, 'all');
             const data = gasWarnings1.concat(flameWarnings1, gasWarnings2, flameWarnings2, gasWarnings3, flameWarnings3, bothWarnings);
@@ -136,6 +120,25 @@ const roomStatusModel = {
         } catch (e) {
         }
     },
+
+    clearUselessData: async function () {
+        try {
+            const result = await this.model.deleteMany({
+                $and: [
+                    {
+                        gas: 1,
+                    },
+                    {
+                        flame: 1,
+                    },
+                ]
+            })
+            console.log(result);
+            return result;
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = roomStatusModel;
