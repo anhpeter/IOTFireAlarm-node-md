@@ -89,10 +89,12 @@ const roomStatusModel = {
     },
 
     genWarnings: function (start, duration, type) {
+        const hDuration = Math.ceil(duration / 60);
+        //const hDuration = duration;
         let d = start;
-        const warnings = [...Array(duration)].map(_ => {
+        const warnings = [...Array(hDuration)].map(_ => {
             const warning = this.getWarning(type);
-            d.setMinutes(d.getMinutes() + 1);
+            d.setHours(d.getHours() + 1);
             warning.date = d.toISOString();
             return warning;
         })
@@ -133,7 +135,7 @@ const roomStatusModel = {
                     },
                 ]
             })
-            console.log(result);
+            console.log('Useless status deleted', result);
             return result;
         } catch (error) {
 
