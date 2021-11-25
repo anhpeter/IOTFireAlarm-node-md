@@ -41,14 +41,14 @@ db.once('open', function () {
     });
 
     roomStatusModel.clearUselessData();
-    setInterval(async () => {
-        roomStatusModel.clearUselessData();
-    }, 60 * 1000)
+    // setInterval(async () => {
+    //     roomStatusModel.clearUselessData();
+    // }, 60 * 1000)
 
-    setInterval(() => {
-        const data = dummyData();
-        io.emit(`SERVER_EMIT_DUMMY_STATUS_${data.room._id}`, data)
-    }, 2000);
+    // setInterval(() => {
+    //     const data = dummyData();
+    //     io.emit(`SERVER_EMIT_DUMMY_STATUS_${data.room._id}`, data)
+    // }, 1000);
 
 
     const dummyData = () => {

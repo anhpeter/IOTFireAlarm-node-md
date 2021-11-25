@@ -46,7 +46,6 @@ const roomStatusModel = {
                 }
             }
         ).sort({ _id: -1 }).then(result => {
-            console.log('duration', Date.now() - t)
             return result;
         });
     },
@@ -112,7 +111,6 @@ const roomStatusModel = {
 
             const gasWarnings3 = this.genWarnings(new Date(2021, 10, 25, 3, 50), 20, 'gas');
             const flameWarnings3 = this.genWarnings(new Date(2021, 10, 25, 4, 9), 300, 'flame');
-
 
             const bothWarnings = this.genWarnings(new Date(2021, 10, 23, 2), 100, 'all');
             const data = gasWarnings1.concat(flameWarnings1, gasWarnings2, flameWarnings2, gasWarnings3, flameWarnings3, bothWarnings);
