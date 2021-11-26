@@ -8,23 +8,20 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-const axios = require('axios');
 const Settings = require('./app/common/Settings');
-const Helper = require('./app/common/Helper');
 const roomStatusModel = require('./app/models/room_status');
 
-// parse application/x-www-form-urlencoded
 app.set('socketio', io);
 app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
 app.use(bodyParser.json())
 app.use(cors());
 
 const PORT = 5000;
 
+// CONNECT MONGO DATABASE
 mongoose.connect(`mongodb+srv://${Settings.database.username}:${Settings.database.password}@cluster0.mrjwz.gcp.mongodb.net/${Settings.database.databaseName}?retryWrites=true&w=majority`,);
-// check connection
+
+// CHECK CONNECTION
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -40,41 +37,6 @@ db.once('open', function () {
     io.on('connection', (socket) => {
     });
 
+    // CLEAR USES STATUS DATA 
     roomStatusModel.clearUselessData();
-    // setInterval(async () => {
-    //     roomStatusModel.clearUselessData();
-    // }, 60 * 1000)
-
-    // setInterval(() => {
-    //     const data = dummyData();
-    //     io.emit(`SERVER_EMIT_DUMMY_STATUS_${data.room._id}`, data)
-    // }, 1000);
-
-
-    const dummyData = () => {
-        const data = {
-            "_id": "6163a2d6443a0500b4fe82b1",
-            "gas": Math.random() > 0.7 ? 0 : 1,
-            "flame": Math.random() > 0.8 ? 0 : 1,
-            "room": {
-                "_id": "6162ef282821861b2881a580",
-                "name": "Room 2",
-                "imageUrl": "https://cdn.luxstay.com/rooms/25495/large/room_25495_56_1558713243.jpg",
-                "__v": 0
-            },
-            "date": new Date().toISOString(),
-            "__v": 0
-        };
-        return data;
-    }
-
 });
-
-
-//make alive
-setInterval(() => {
-    axios.get('https://fire-alarm-api.glitch.me/')
-        .then(res => {
-            console.log('MAKE APP ALIVE;');
-        }).catch((e) => { })
-}, 3 * 60 * 1000);

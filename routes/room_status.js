@@ -13,16 +13,7 @@ router.get('/', async (req, res) => {
     } catch (e) { Response.error(res, e); }
 })
 
-router.get('/get-last-items-by-room-id/:_id', async (req, res) => {
-    let { _id } = req.params;
-    let { qty } = req.query;
-    try {
-        qty = Number.parseInt(qty);
-        const items = await mainModel.getLastItemsByRoomId(_id, qty);
-        Response.success(res, items);
-    } catch (e) { Response.error(res, e); }
-})
-
+// GET LAST ITEMS AFTER SPECIFIC TIME FOR CHART DISPLAY PURPOSE
 router.get('/get-last-items-after-time/:_id', async (req, res) => {
     let { _id } = req.params;
     let { time } = req.query;
@@ -32,25 +23,37 @@ router.get('/get-last-items-after-time/:_id', async (req, res) => {
     } catch (e) { Response.error(res, e); }
 })
 
-// insert
+// INSERT NEW STATUS (IOT)
 router.post('/', async (req, res) => {
     const io = req.app.get('socketio');
+
+    // CREATE STATUS
     const item = {
         ...req.body,
         date: new Date().toISOString(),
 
     };
+
     try {
+        // INSERT STATUS TO DATABASE
         const result = await mainModel.insertOne(item);
+
+        // GET STATUS WITH IT'S ROOM
         const status = await mainModel.getItemById(result._id).populate('room');
-        console.log('\n NEW', status._id);
+
+        // EMIT STATUS TO CLIENT FOR DISPLAY DATA REALTIME
         io.emit(`SERVER_EMIT_ROOM_WITH_STATUS_${status.room._id}`, status);
+
+        // RETURN INSERTED STATUS BACK TO REQUEST (IOT)
         Response.success(res, status);
+
+        //
+        console.log('\n NEW', status._id);
     } catch (e) { Response.error(res, e); }
 
 })
 
-// delete 
+// DELETE ALL
 router.get('/delete-all', async (req, res) => {
     try {
         const result = await mainModel.deleteAll();
@@ -58,6 +61,7 @@ router.get('/delete-all', async (req, res) => {
     } catch (e) { Response.error(res, e); }
 })
 
+// GENERATE DUMMY DATA
 router.get('/fake', async (req, res) => {
     try {
         const result = await mainModel.insertFakeDocs();
