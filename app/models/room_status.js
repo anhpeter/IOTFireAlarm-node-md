@@ -90,10 +90,10 @@ const roomStatusModel = {
     genWarnings: function (start, duration, type) {
         const hDuration = Math.ceil(duration / 60);
         //const hDuration = duration;
-        let d = start;
-        const warnings = [...Array(hDuration)].map(_ => {
+        const warnings = [...Array(hDuration)].map((_, idx) => {
             const warning = this.getWarning(type);
-            d.setHours(d.getHours() + 1);
+            const d = new Date(start.toISOString());
+            d.setHours(d.getHours() + idx);
             warning.date = d.toISOString();
             return warning;
         })
@@ -103,19 +103,23 @@ const roomStatusModel = {
     // insert
     insertFakeDocs: async function () {
         try {
-            const gasWarnings1 = this.genWarnings(new Date(2021, 10, 19, 15, 15), 40, 'gas');
-            const flameWarnings1 = this.genWarnings(new Date(2021, 10, 19, 15, 50), 530, 'flame');
-
-            const gasWarnings2 = this.genWarnings(new Date(2021, 10, 21, 22), 130, 'gas');
-            const flameWarnings2 = this.genWarnings(new Date(2021, 10, 22, 0, 10), 240, 'flame');
-
-            const gasWarnings3 = this.genWarnings(new Date(2021, 10, 25, 3, 50), 20, 'gas');
-            const flameWarnings3 = this.genWarnings(new Date(2021, 10, 25, 4, 9), 300, 'flame');
-
-            const bothWarnings = this.genWarnings(new Date(2021, 10, 23, 2), 100, 'all');
-            const data = gasWarnings1.concat(flameWarnings1, gasWarnings2, flameWarnings2, gasWarnings3, flameWarnings3, bothWarnings);
+            const dataset = [
+                // 
+                ...this.genWarnings(new Date(2021, 8, 12, 23, 50), 100, 'gas'),
+                ...this.genWarnings(new Date(2021, 8, 13, 3), 733, 'flame'),
+                // 
+                ...this.genWarnings(new Date(2021, 10, 4, 15, 15), 40, 'gas'),
+                ...this.genWarnings(new Date(2021, 10, 4, 15, 50), 530, 'flame'),
+                //
+                ...this.genWarnings(new Date(2021, 10, 19, 22), 130, 'gas'),
+                ...this.genWarnings(new Date(2021, 10, 20, 0, 10), 240, 'flame'),
+                //
+                ...this.genWarnings(new Date(2021, 10, 25, 3, 50), 20, 'gas'),
+                ...this.genWarnings(new Date(2021, 10, 25, 4, 9), 300, 'flame'),
+                //
+            ]
             await this.model.deleteMany({});
-            const result = await this.model.insertMany(data);
+            const result = await this.model.insertMany(dataset);
             return result;
         } catch (e) {
         }
