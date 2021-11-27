@@ -13,6 +13,16 @@ router.get('/', async (req, res) => {
     } catch (e) { Response.error(res, e); }
 })
 
+router.get('/get-last-items/:_id', async (req, res) => {
+    let { _id } = req.params;
+    let { qty } = req.query;
+    try {
+        qty = Number.parseInt(qty);
+        const items = await mainModel.getLastItemsByRoomId(_id, qty);
+        Response.success(res, items);
+    } catch (e) { Response.error(res, e); }
+})
+
 // GET LAST ITEMS AFTER SPECIFIC TIME FOR CHART DISPLAY PURPOSE
 router.get('/get-last-items-after-time/:_id', async (req, res) => {
     let { _id } = req.params;

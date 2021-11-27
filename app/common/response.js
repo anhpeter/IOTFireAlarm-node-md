@@ -12,6 +12,7 @@ const Response = {
     error: function (res, payload) {
         res.status(500);
         res.header('Content-Type', 'application/json');
+        console.log(payload)
         const data = JSON.stringify({
             status: 'error',
             payload,
