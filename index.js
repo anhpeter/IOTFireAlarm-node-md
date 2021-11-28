@@ -12,7 +12,7 @@ const server = http.createServer(app);
 const io = require("socket.io")(server, {
     cors: {
         //origin: "http://localhost:3000",
-        origin: "https://anhpeter.github.io/IT3Project-react-md",
+        origin: "https://anhpeter.github.io",
         methods: ["GET", "POST"]
     }
 });
