@@ -6,7 +6,7 @@ const mainModel = require('../app/models/room_status');
 
 router.get('/', async (req, res) => {
     try {
-        const io = req.app.get('socketio');
+        const io = req.app.get('io');
         io.emit('test-data', { username: 'peter' })
         const result = await mainModel.getAll();
         Response.success(res, result);
@@ -34,8 +34,9 @@ router.get('/get-last-items-after-time/:_id', async (req, res) => {
 })
 
 // INSERT NEW STATUS (IOT)
+let statusCount = 0;
 router.post('/', async (req, res) => {
-    const io = req.app.get('socketio');
+    const io = req.app.get('io');
 
     // CREATE STATUS
     const item = {
@@ -57,8 +58,15 @@ router.post('/', async (req, res) => {
         // RETURN INSERTED STATUS BACK TO REQUEST (IOT)
         Response.success(res, status);
 
-        //
+        // LOG NEW STATUS
         console.log('\n NEW', status._id);
+
+        // CLEAR USELESS DATA 
+        statusCount++;
+        if (statusCount >= 100) {
+            mainModel.clearUselessData();
+            statusCount = 0;
+        }
     } catch (e) { Response.error(res, e); }
 
 })
