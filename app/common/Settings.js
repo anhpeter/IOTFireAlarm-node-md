@@ -1,8 +1,8 @@
 const Settings = {
-    database: {
-        username:'admin',
-        password:'Admin123',
-        databaseName:'FireAlarm',
-    }
-}
+  database: {
+    username: "fire-alarm",
+    password: "eUYcTCltK2eiNsO4",
+    databaseName: "FireAlarm",
+  },
+};
 module.exports = Settings;
